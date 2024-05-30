@@ -67,6 +67,7 @@
                     brand: '',
                     description: '',
                     price: 0,
+                    imageURL:''
                 },
             };
         },
@@ -86,6 +87,7 @@
                 this.product.brand = '';
                 this.product.description = '';
                 this.product.price = 0;
+                this.product.imageURL = 0;
                 // Close the modal programmatically
                 //$('#addProductModal').modal('hide');
             },

@@ -53,6 +53,7 @@ export default createStore({
         likedProducts(state) {
             return state.likedProducts;
         }
+
     },
     actions: {},
     modules: {

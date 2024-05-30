@@ -19,9 +19,9 @@
                     '/img/laptopbg.jpg',
                     '/img/bag.png',
                     '/img/iphone1.jpg',
-                    '/img/iphone14.jpg',
-                    '/img/iphone14_1.jpg',
-                    '/img/iphone2.jpg',
+                    //'/img/iphone14.jpg',
+                    //'/img/iphone14_1.jpg',
+                    //'/img/iphone2.jpg',
                 ],
                 currentIndex: 0,
                 intervalId: null,
@@ -83,7 +83,7 @@
 
     .carousel-track {
         display: flex;
-        transition: transform 0.5s ease-in-out;
+        transition: transform 0.20s ease-in-out;
     }
 
     .carousel-slide {
