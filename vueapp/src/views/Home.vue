@@ -2,7 +2,7 @@
 
 <template>
     <SliderHome/>
-    <div class="container min-h-content py-5 text-center" style="margin-bottom: 100px;">
+    <div class="container min-h-content py-4 text-center" style="margin-bottom: 100px;">
         <!-- Pagination Controls -->
         <div class="pagination-controls" v-if="totalPages > 1">
             <button @click="prevPage" :disabled="currentPage === 1">

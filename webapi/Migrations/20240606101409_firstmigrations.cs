@@ -3,14 +3,33 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace webapi.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class firstmigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    ProductID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Brand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.ProductID);
+                });
+
             migrationBuilder.CreateTable(
                 name: "RegistrationTable",
                 columns: table => new
@@ -171,6 +190,15 @@ namespace webapi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "RolesTable",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "4843ae21-4d8c-4dba-bb7e-321aabad16f3", null, "User", null },
+                    { "7b409443-e85a-4285-972f-c13103f5258b", null, "Admin", null }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_RoleClaimsTable_RoleId",
                 table: "RoleClaimsTable",
@@ -214,6 +242,9 @@ namespace webapi.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Product");
+
             migrationBuilder.DropTable(
                 name: "RegistrationTable");
 

@@ -1,11 +1,19 @@
 <template>
-    <div class="carousel-container" :class="{ 'full-page': isFullPage }">
-        <div class="carousel">
-            <div class="carousel-track" :style="trackStyle">
-                <div class="carousel-slide" v-for="(image, index) in images" :key="index">
-                    <img :src="image" :alt="'Slide ' + (index + 1)">
+    <div class="carousel-container">
+        <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item" :class="{ active: index === 0 }" v-for="(image, index) in images" :key="index">
+                    <img class="d-block w-100" :src="image" :alt="'Slide ' + (index + 1)">
                 </div>
             </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" @click="prevSlide">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" @click="nextSlide">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
         </div>
     </div>
 </template>
@@ -15,107 +23,39 @@
         data() {
             return {
                 images: [
-                    '/img/img1.jpg',
-                    '/img/laptopbg.jpg',
-                    '/img/bag.png',
-                    '/img/iphone1.jpg',
-                    //'/img/iphone14.jpg',
-                    //'/img/iphone14_1.jpg',
-                    //'/img/iphone2.jpg',
+                    'https://img.freepik.com/free-vector/flat-11-11-shopping-day-sale-banner-template_23-2149724057.jpg?size=626&ext=jpg&ga=GA1.1.1573671158.1712581185&semt=ais_user',
+                    'https://img.freepik.com/free-vector/online-shopping-landing-page_23-2148787137.jpg?size=626&ext=jpg&ga=GA1.1.1573671158.1712581185&semt=ais_user',
+                    'https://img.freepik.com/premium-vector/online-shop-ads-banner-template_653829-11.jpg?size=626&ext=jpg&ga=GA1.1.1573671158.1712581185&semt=ais_user',
                 ],
                 currentIndex: 0,
-                intervalId: null,
-                isFullPage: false,
             };
         },
-        computed: {
-            trackStyle() {
-                return {
-                    transform: `translateX(-${this.currentIndex * 100}%)`,
-                    transition: 'transform 0.5s ease-in-out',
-                    width: `${100 / this.images.length}%`, // Set width of each slide dynamically
-                };
-            },
-        },
-        mounted() {
-            this.startAutoSlide();
-            window.addEventListener('keydown', this.handleKeyDown);
-        },
-        beforeUnmount() { // Use beforeUnmount for Vue 3
-            this.stopAutoSlide();
-            window.removeEventListener('keydown', this.handleKeyDown);
-        },
         methods: {
-            startAutoSlide() {
-                this.intervalId = setInterval(this.nextSlide, 1000); // Change slide every 3 seconds
-            },
-            stopAutoSlide() {
-                clearInterval(this.intervalId);
-            },
             nextSlide() {
-                this.currentIndex = (this.currentIndex + 1) % this.images.length;
-            },
-            handleKeyDown(event) {
-                if (event.key === 'Enter') {
-                    this.toggleFullPage();
+                if (this.currentIndex < this.images.length - 1) {
+                    this.currentIndex++;
+                } else {
+                    this.currentIndex = 0;
                 }
             },
-            toggleFullPage() {
-                this.isFullPage = !this.isFullPage;
+            prevSlide() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                } else {
+                    this.currentIndex = this.images.length - 1;
+                }
             },
         },
     };
 </script>
+
 <style scoped>
     .carousel-container {
-        overflow: hidden;
-        width: 100%;
-        height: 30%; /* Set height to 30% of the viewport height */
-       
-        position: relative; /* Ensure relative positioning for child elements */
+        margin-top: 30px; /* Adjust the margin-top to ensure it's below the header */
     }
 
-    .carousel {
-        width: 100%;
-        height: 30%; /* Fill the entire height of the carousel container */
-        overflow: hidden;
+    .carousel-item img {
+        max-height: 500px; /* Adjust as needed */
+        object-fit: cover;
     }
-
-    .carousel-track {
-        display: flex;
-        transition: transform 0.20s ease-in-out;
-    }
-
-    .carousel-slide {
-        min-width: 100%; /* Each slide takes full width */
-        box-sizing: border-box;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-        .carousel-slide img {
-            max-width: 100%; /* Ensures the image does not exceed the container width */
-            max-height: 100%; /* Ensures the image does not exceed the container height */
-            height: auto;
-            object-fit: cover;
-            border-radius: 10px;
-            padding: 10px; /* Add padding to the image */
-            margin: 0 auto; /* Center the image horizontally */
-        }
-
-    .full-page {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background-color: rgba(0, 0, 0, 0.9); /* Adjust the background color and opacity */
-    }
-
-        .full-page .carousel {
-            height: 100%;
-        }
 </style>
-
