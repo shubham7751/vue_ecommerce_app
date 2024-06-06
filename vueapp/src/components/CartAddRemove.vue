@@ -2,7 +2,7 @@
   <div v-if="localProduct" class="input-group plus-minus">
     <button class="btn btn-outline-secondary" :class="{ 'disabled': qty <= 1 || loading }" @click="addOrRemove(-1)" type="button">-</button>
     <input type="number" v-model="qty" disabled class="form-control form-control-sm" placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
-    <button class="btn btn-outline-secondary" :class="{ 'disabled': qty >= 10 || loading }" @click="addOrRemove(1)" type="button">+</button>
+    <button class="btn btn-outline-secondary" :class="{ 'disabled': qty >= 5 || loading }" @click="addOrRemove(1)" type="button">+</button>
   </div>
 </template>
 

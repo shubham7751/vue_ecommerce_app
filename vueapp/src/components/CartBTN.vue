@@ -32,7 +32,7 @@
      },
      mounted(){
       let cart = this.$store.state.cart
-      let obj = cart.find(o => o.id === this.product.id)
+         let obj = cart.find(o => o.productID === this.product.productID)
       if(obj){
         this.toAdd = false
         this.item = obj

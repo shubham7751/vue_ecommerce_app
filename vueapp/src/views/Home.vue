@@ -56,19 +56,13 @@
         data() {
             return {
                 products: [{ id: 1, name: 'iphone-13', image: '/img/iphone1.jpg', price: 60000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 2, name: 'iphone15', image: '/img/iphone14.jpg', price: 150000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 3, name: 'iphone14', image: '/img/iphone14_1.jpg', price: 50000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 4, name: 'iphone', image: '/img/iphone2.jpg', price: 40000, liked: false, showFloatingHeart: false, floatingMessage: '' },
+                  { id: 4, name: 'iphone', image: '/img/iphone2.jpg', price: 40000, liked: false, showFloatingHeart: false, floatingMessage: '' },
                 { id: 5, name: 'iphone-13', image: '/img/iphone1.jpg', price: 60000, liked: false, showFloatingHeart: false, floatingMessage: '' },
                 { id: 7, name: 'iphone15', image: '/img/iphone14.jpg', price: 150000, liked: false, showFloatingHeart: false, floatingMessage: '' },
                 { id: 6, name: 'iphone14', image: '/img/iphone14_1.jpg', price: 50000, liked: false, showFloatingHeart: false, floatingMessage: '' },
                 { id: 8, name: 'iphone', image: '/img/iphone2.jpg', price: 40000, liked: false, showFloatingHeart: false, floatingMessage: '' },
 
-                { id: 9, name: 'iphone-13', image: '/img/iphone1.jpg', price: 60000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 10, name: 'iphone15', image: '/img/iphone14.jpg', price: 150000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 11, name: 'iphone14', image: '/img/iphone14_1.jpg', price: 50000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                { id: 12, name: 'iphone', image: '/img/iphone2.jpg', price: 40000, liked: false, showFloatingHeart: false, floatingMessage: '' },
-                ],
+                 ],
 
                 currentPage: 1,
                 itemsPerPage: 6 // Number of items per page

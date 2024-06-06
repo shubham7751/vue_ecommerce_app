@@ -1,6 +1,7 @@
 ﻿
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using webapi.Model;
 
 namespace webapi.Services.ProductServices
@@ -9,13 +10,18 @@ namespace webapi.Services.ProductServices
     {
         private readonly IConfiguration _configuration;
         private readonly string _connectionString;
+        private readonly  ApplicationDbContext _cc;
 
-        public ProductRepository(IConfiguration configuration)
+        public ProductRepository(IConfiguration configuration, ApplicationDbContext cc)
         {
             _configuration = configuration;
             _connectionString = _configuration.GetConnectionString("DefaultConnection");
+            _cc = cc;   
         }
-
+        public bool Exists(string imageURL)
+        {
+            return _cc.products.Any(p => p.ImageURL == imageURL);
+        }
         public IEnumerable<Product> GetAll()
         {
             List<Product> products = new List<Product>();

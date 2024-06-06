@@ -1,7 +1,7 @@
 <template>
 <section class="h-100 h-custom min-h-content" >
 <div class="container py-5 h-100">
-<div class="row d-flex justify-content-center align-items-center h-100">
+<div class="row d-flex justify-content-center align-items-center h-50">
     <div class="col">
     <div class="card border-0">
         <div class="card-body p-4">

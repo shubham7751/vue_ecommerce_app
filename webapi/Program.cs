@@ -50,12 +50,14 @@ builder.Services.AddSwaggerGen();
 // Configure CORS
 builder.Services.AddCors(options =>
 {
+
     options.AddPolicy("_myAllowSpecificOrigins",
         builder =>
         {
             builder.AllowAnyOrigin()
                    .AllowAnyHeader()
                    .AllowAnyMethod();
+            //.WithOrigins("*")
         });
 });
 var app = builder.Build();

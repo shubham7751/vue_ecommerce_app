@@ -1,111 +1,124 @@
 <template>
-    
-        <div class="product-container">
-            <AddProductsModal></AddProductsModal>
-            <div class="container min-h-content py-5 text-center" style="margin-bottom: 100px;">
-                <!-- Pagination Controls -->
-                <div class="pagination-controls" v-if="totalPages > 1">
-                    <button @click="prevPage" :disabled="currentPage === 1">
-                        <i class="cil-chevron-circle-left-alt"></i> <!-- Bootstrap Icons: Left Arrow -->
-                    </button>
-                    <button @click="nextPage" :disabled="currentPage === totalPages">
-                        <i class="cil-chevron-circle-right-alt"></i>
-                        <!-- Bootstrap Icons: Right Arrow -->
-                    </button>
-                </div>
-                <div style="padding: 4px;" class="col-md-4" v-for="(product, index) in paginatedProducts" :key="index">
-                    <div class="row py-lg-5">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                            <div class="col" v-for="product in paginatedProducts" :key="product.id">
-                                <div class="card shadow-sm">
-                                    <!-- Like icon -->
-                                    <div class="like-icon">
-                                        <i class="bi bi-heart bi-heart-empty Likebtnicon"
-                                           @click="toggleLike(product)"
-                                           :class="{ 'bi-heart-fill': product.liked }"></i>
-                                    </div>
-                                    <!-- Floating heart animation container for each product -->
-                                    <div v-if="product.showFloatingHeart" class="floating-heart">
-                                        <i class="bi bi-heart-fill heart-animation"></i>
-                                        <p>{{ product.floatingMessage }}</p>
-                                    </div>
-                                    <img class="bd-placeholder-img card-img-top" width="100%" :src="product.imageURL" alt="">
-                                    <div class="card-body">
-                                        <p class="card-text">{{ product.name }}</p>
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="btn-group">
-                                                <CartBTN :product="product" />
-                                            </div>
-                                            <small class="text-muted"><i class="bi bi-currency-dollar"></i>{{ product.price }}</small>
-                                        </div>
-                                    </div>
+    <div class="product-container">
+        <br />
+        <AddProductsModal @productAdded="fetchProducts"></AddProductsModal>
+        <div class="container min-h-content py-5 text-center" style="margin-bottom: 100px;">
+            <!-- Pagination Controls -->
+            <div class="pagination-controls" v-if="totalPages > 1">
+                <button @click="prevPage" :disabled="currentPage === 1">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button @click="nextPage" :disabled="currentPage === totalPages">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div class="col" v-for="(product, index) in paginatedProducts" :key="index">
+                    <div class="card shadow-sm">
+                        <!-- Like icon -->
+                        <div class="like-icon">
+                            <i class="bi bi-heart bi-heart-empty Likebtnicon"
+                               @click="toggleLike(product)"
+                               :class="{ 'bi-heart-fill': product.liked }"></i>
+                        </div>
+                        <!-- Floating heart animation container for each product -->
+                        <div v-if="product.showFloatingHeart" class="floating-heart">
+                            <i class="bi bi-heart-fill heart-animation"></i>
+                            <p>{{ product.floatingMessage }}</p>
+                        </div>
+                        <div class="product-image">
+                            <img @click="showImageModal(product.imageURL)" :src="product.imageURL" :width="imgWidth" :height="imgHeight" alt="Image not available here">
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ product.name }}</p><br />
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <CartBTN :product="product" @addToCart="addToCart(product.productID)" />
                                 </div>
+                                <small class="text-muted"><i class="bi bi-currency-dollar"></i>{{ product.price }}</small>
+                            </div><br />
+                            <div class="button-container">
+                                <button @click="editProduct(product)" class="btn btn-sm btn-outline-secondary me-2">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button @click="deleteProduct(product.productID)" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div style="display: flex; justify-content: center; align-items: flex-end; height: 100%;">
-                <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        </div>
+        <div style="display: flex; justify-content: center; align-items: flex-end; height: 100%;">
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+        </div>
+        <!-- Edit Modal -->
+        <div v-if="editModalActive" class="modal is-active">
+            <div class="modal-background" @click="closeEditModal"></div>
+            <div class="modal-content">
+                <form @submit.prevent="submitEdit" class="p-3">
+                    <h2 class="mb-4">Edit Product</h2>
+                    <button class="modal-close is-small" aria-label="close" @click="closeEditModal">
+                        <i class="bi bi-x-lg"></i>
+                    </button>
+                    <div class="mb-3">
+                        <label for="editName" class="form-label">Name:</label>
+                        <input type="text" id="editName" v-model="UpdateProduct.name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editBrand" class="form-label">Brand:</label>
+                        <input type="text" id="editBrand" v-model="UpdateProduct.brand" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description:</label>
+                        <textarea id="editDescription" v-model="UpdateProduct.description" class="form-control" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPrice" class="form-label">Price:</label>
+                        <input type="number" id="editPrice" v-model="UpdateProduct.price" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editImage" class="form-label">Image:</label>
+                        <textarea id="editImage" v-model="UpdateProduct.imageURL" class="form-control" required></textarea>
+                    </div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <button type="submit" class="btn btn-primary me-md-2">Save</button>
+                        <button type="button" @click="closeEditModal" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </form>
             </div>
-        
-    </div>
-    <!-- Edit Modal -->
-    <div class="modal" :class="{ 'is-active': editModalActive }">
-        <div class="modal-background" @click="closeEditModal"></div>
-        <div class="modal-content">
-            <form @submit.prevent="submitEdit" class="p-3">
-                <h2 class="mb-4">Edit Product</h2>
-                <button class="modal-close is-small" aria-label="close" @click="closeEditModal">
+        </div>
+        <!-- Image Preview Modal -->
+        <div class="modal" v-if="showModal">
+            <div class="modal-content">
+                <img :src="previewImageURL" alt="Preview Image" class="image-preview">
+                <button class="modal-close is-small" aria-label="close" @click="closeImageModal">
                     <i class="bi bi-x-lg"></i>
                 </button>
-                <div class="mb-3">
-                    <label for="editName" class="form-label">Name:</label>
-                    <input type="text" id="editName" v-model="UpdateProduct.name" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="editBrand" class="form-label">Brand:</label>
-                    <input type="text" id="editBrand" v-model="UpdateProduct.brand" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="editDescription" class="form-label pink-bold">Description:</label>
-                    <textarea id="editDescription" v-model="UpdateProduct.description" class="form-control" required></textarea>
-                </div>
-                <div class="mb-3">
-                    <label for="editPrice" class="form-label">Price:</label>
-                    <input type="number" id="editPrice" v-model="UpdateProduct.price" class="form-control" required>
-                </div>
-                <div class="mb-3">
-                    <label for="editImage" class="form-label">Image:</label>
-                    <textarea id="editImage" v-model="UpdateProduct.imageURL" class="form-control" required> </textarea>
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    <button type="submit" class="btn btn-primary me-md-2">Save</button>
-                    <button type="button" @click="closeEditModal" class="btn btn-secondary">Cancel</button>
-                </div>
-            </form>
+            </div>
         </div>
-    </div>
-    <!-- Image Preview Modal -->
-    <div class="modal" :class="{ 'is-active': showImageModal }">
-        <div class="modal-content">
-            <img :src="previewImageURL" alt="Preview Image" class="image-preview">
-            <button class="modal-close is-small" aria-label="close" @click="closeImageModal">
-                <i class="bi bi-x-lg"></i>
-            </button>
-        </div>
+
+
     </div>
 </template>
 <script>
     import axios from 'axios';
-     import CartBTN from '../components/CartBTN.vue';
+    import { mapActions } from 'vuex';
+    import { toast } from 'vue3-toastify';
+    import 'vue3-toastify/dist/index.css';
+    import CartBTN from '../components/CartBTN.vue';
     import AddProductsModal from '@/components/AddProductsModal.vue';
-    export default {
 
+    export default {
+        name: 'ProductList',
+        components: {
+            CartBTN,
+            AddProductsModal
+        },
         data() {
             return {
-                props: ['product'],
-
+                imgWidth: 220,
                 products: [],
                 editModalActive: false,
                 UpdateProduct: {
@@ -117,22 +130,16 @@
                     imageURL: ''
                 },
                 currentPage: 1,
-                productsPerPage: 3,
+                productsPerPage: 6,
                 showSuccessModal: false,
-                showImageModal: false,
-                previewImageURL: ''
+                previewImageURL: '', // Initialize previewImageURL as an empty string
+                showModal: false, 
             };
         },
-        addToCart(id) {
-            let data = {
-                id: id,
-                status: true
-            }
-            // Assuming you have access to the store via this.$store
-            this.$store.commit('addToCart', id);
-            this.$store.commit('setAddedBtn', data);
-        },
         computed: {
+            imgHeight() {
+                return Math.round(this.imgWidth * 1);
+            },
             totalPages() {
                 return Math.ceil(this.products.length / this.productsPerPage);
             },
@@ -145,24 +152,9 @@
         created() {
             this.fetchProducts();
         },
-        components: {
-            CartBTN ,
-            AddProductsModal
-        },
         methods: {
-                        toggleLike(product) {
-                product.liked = !product.liked;
-                const message = product.liked ? 'Liked' : 'Unliked';
-                this.showFloatingHeartMessage(product, message);
-                this.$store.commit('toggleLikeProduct', product);
-            },
-            showFloatingHeartMessage(product, message) {
-                product.floatingMessage = message;
-                product.showFloatingHeart = true;
-                setTimeout(() => {
-                    product.showFloatingHeart = false;
-                }, 1000); // Show message for 1 second
-            },
+            ...mapActions(['addProduct', 'updateProduct', 'deleteProduct']),
+
             async fetchProducts() {
                 try {
                     const response = await axios.get('https://localhost:7018/api/Product');
@@ -171,14 +163,17 @@
                     console.error('Error fetching products:', error);
                 }
             },
-            async editProduct(product) {
+
+            editProduct(product) {
                 this.UpdateProduct = { ...product };
                 this.UpdateProduct.productId = product.productID;
                 this.editModalActive = true;
             },
+
             closeEditModal() {
                 this.editModalActive = false;
             },
+
             async submitEdit() {
                 try {
                     const id = this.UpdateProduct.productId;
@@ -191,25 +186,54 @@
                     }
 
                     this.editModalActive = false;
-                    this.showSuccessModal = true;
+                    toast.success("Product updated successfully", { autoClose: 3000, position: 'top-right' });
                 } catch (error) {
                     console.error('Error updating product:', error);
+                    toast.error("Error updating product", { autoClose: 3000, position: 'top-right' });
                 }
             },
-            async deleteProduct(product) {
+
+            async deleteProduct(ProductID) {
                 const confirmed = window.confirm('Are you sure you want to delete this product?');
                 if (confirmed) {
                     try {
-                        await axios.delete(`https://localhost:7018/api/Product/${product.productID}`);
-                        const index = this.products.findIndex(p => p.productID === product.productID);
+                        await axios.delete(`https://localhost:7018/api/Product/${ProductID}`);
+                        const index = this.products.findIndex(p => p.ProductID === ProductID);
                         if (index !== -1) {
                             this.products.splice(index, 1);
                         }
+                        toast.success("Product deleted successfully", { autoClose: 3000, position: 'top-right' });
                     } catch (error) {
                         console.error('Error deleting product:', error);
+                        toast.error("Error deleting product", { autoClose: 3000, position: 'top-right' });
                     }
                 } else {
                     console.log('Deletion cancelled by user');
+                }
+            },
+
+            toggleLike(product) {
+                product.liked = !product.liked;
+                const message = product.liked ? 'Added to Wishlist' : 'Removed from Wishlist';
+                product.floatingMessage = message;
+
+                product.showFloatingHeart = true;
+                setTimeout(() => {
+                    product.showFloatingHeart = false;
+                }, 2000);
+
+                const toastType = product.liked ? toast.success : toast.error;
+                toastType(message, { autoClose: 3000, position: 'top-right' });
+            },
+
+            addToCart(productId) {
+                console.log('Add to cart:', productId);
+                // Add to cart functionality
+            },
+
+            prevPage() {
+                if (this.currentPage > 1) {
+                    this.currentPage--;
                 }
             },
 
@@ -218,26 +242,75 @@
                     this.currentPage++;
                 }
             },
-            prevPage() {
-                if (this.currentPage > 1) {
-                    this.currentPage--;
-                }
-            },
-            openPreviewModal(imageURL) {
+
+            showImageModal(imageURL) {
+                console.log('Image URL:', imageURL); // Log the imageURL being passed to the method
                 this.previewImageURL = imageURL;
-                this.showImageModal = true;
+                this.showModal = true; // Set showModal to true to display the modal
             },
+
+            // Method to close the image preview modal
             closeImageModal() {
-                this.showImageModal = false;
-                this.previewImageURL = '';
+                this.showModal = false; // Set showModal to false to hide the modal
             }
         }
     };
-
 </script>
 
 
+
 <style>
+    /* CSS for image preview modal */
+    .modal {
+        display: none; /* Hide modal by default */
+        position: fixed;
+        z-index: 9999; /* Ensure modal appears on top of other content */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background */
+    }
+
+    .modal-content {
+        position: relative;
+        margin: auto;
+        width: 80%; /* Adjust modal width as needed */
+        max-width: 700px; /* Set maximum width for modal content */
+        background-color: red; /* White background */
+        border-radius: 8px; /* Add border radius for rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow for depth */
+    }
+
+    .image-preview {
+        display: block;
+        margin: auto;
+        max-width: 100%; /* Ensure image fits within modal content */
+        max-height: 80vh; /* Limit maximum height of image to 80% of viewport height */
+        border-radius: 8px 8px 0 0; /* Rounded corners only on top */
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 20px;
+        color: #333; /* Dark color for close icon */
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .product-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
     .like-icon {
         position: absolute;
         top: 10px;

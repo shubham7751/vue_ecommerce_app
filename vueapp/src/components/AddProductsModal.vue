@@ -58,6 +58,9 @@
 
 <script>
     import { mapActions, mapGetters } from 'vuex';
+    import axios from 'axios';
+   import { toast } from 'vue3-toastify'; // Import toast from vue3-toastify
+import 'vue3-toastify/dist/index.css';
 
     export default {
         data() {
@@ -67,31 +70,58 @@
                     brand: '',
                     description: '',
                     price: 0,
-                    imageURL:''
-                },
+                    imageURL: ''
+                }
             };
         },
         computed: {
             ...mapGetters({
-                products: 'products',
+                products: 'products'
             }),
             latestProduct() {
                 return this.products.length ? this.products[this.products.length - 1] : null;
-            },
+            }
         },
         methods: {
-            ...mapActions(['addProduct']),
             submitForm() {
-                this.addProduct(this.product);
-                this.product.name = '';
-                this.product.brand = '';
-                this.product.description = '';
-                this.product.price = 0;
-                this.product.imageURL = 0;
-                // Close the modal programmatically
-                //$('#addProductModal').modal('hide');
+                axios.post('https://localhost:7018/api/product', this.product)
+                    .then(response => {
+                        console.log('Product added successfully:', response.data);
+                        this.addProduct(response.data);
+                        this.product = { // Reset the product object
+                            name: '',
+                            brand: '',
+                            description: '',
+                            price: 0,
+                            imageURL: ''
+                        };
+
+                        // Show green toast message for successful product addition
+                        this.showToastMessage("Product saved successfully", "green");
+                    })
+                    .catch(error => {
+                        console.error('Error adding product:', error);
+                        if (error.response && error.response.status === 409) {
+                            // Show red toast message for duplicate image URL
+                            this.showToastMessage("Product with the same image URL already exists.", "red");
+                        }
+                    });
             },
-        },
+
+            showToastMessage(message, backgroundColor) {
+                // Set the toast message and background color
+                this.toastMessage = message;
+                this.toastBackgroundColor = backgroundColor;
+
+                // Show the toast
+                this.showToast = true;
+
+                // Hide the toast after 3 seconds (3000 milliseconds)
+                setTimeout(() => {
+                    this.showToast = false;
+                }, 3000);
+            }
+        }
     };
 </script>
 

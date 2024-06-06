@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore } from 'vuex';
 import products from './modules/products';
 
 export default createStore({
@@ -20,7 +20,7 @@ export default createStore({
             if (payload.toAdd) {
                 state.cart.push(payload.product);
             } else {
-                state.cart = state.cart.filter(obj => obj.id !== payload.product.id);
+                state.cart = state.cart.filter(obj => obj.productID !== payload.product.productID);
             }
             state.cartTotal = state.cart.reduce((accumulator, object) => {
                 return parseFloat(accumulator) + parseFloat(object.price * object.qty);
@@ -29,7 +29,7 @@ export default createStore({
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         updateCart(state, payload) {
-            state.cart.find(o => o.id === payload.product.id).qty = payload.product.qty;
+            state.cart.find(o => o.productID === payload.product.productID).qty = payload.product.qty;
             state.cartTotal = state.cart.reduce((accumulator, object) => {
                 return parseFloat(accumulator) + parseFloat(object.price * object.qty);
             }, 0);
@@ -37,7 +37,7 @@ export default createStore({
             localStorage.setItem('cart', JSON.stringify(state.cart));
         },
         toggleLikeProduct(state, product) {
-            const index = state.likedProducts.findIndex(p => p.id === product.id);
+            const index = state.likedProducts.findIndex(p => p.productID === product.productID);
             if (index === -1) {
                 state.likedProducts.push(product);
             } else {
@@ -48,12 +48,11 @@ export default createStore({
     },
     getters: {
         isProductLiked: (state) => (product) => {
-            return state.likedProducts.some(p => p.id === product.id);
+            return state.likedProducts.some(p => p.productID === product.productID);
         },
         likedProducts(state) {
             return state.likedProducts;
         }
-
     },
     actions: {},
     modules: {

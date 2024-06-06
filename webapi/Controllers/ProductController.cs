@@ -59,6 +59,12 @@ namespace webapi.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool exists = _productRepository.Exists(product.ImageURL);
+                    if (exists)
+                    {
+                        return Conflict("Product with the same image URL already exists.");
+                    }
+
                     bool success = _productRepository.Add(product);
                     if (success)
                     {
