@@ -1,9 +1,9 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
         <div class="container-fluid">
             <router-link to="/" class="navbar-brand">
-             <img src="/img/Logo1.png" alt="E-CommerceWeb" width="100" height="50">
-             </router-link>
+                <img src="https://w7.pngwing.com/pngs/384/470/png-transparent-retail-computer-icons-e-commerce-sales-mega-offer-miscellaneous-service-logo.png" alt="E-CommerceWeb" width="100" height="50">
+            </router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -12,20 +12,23 @@
                     <li class="nav-item">
                         <router-link :to="'/allProduct'" class="nav-link" aria-current="page">Product List</router-link>
                     </li>
-                  
-
-
                 </ul>
+                <form class="d-flex me-auto w-50" @submit.prevent="searchProducts">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" v-model="searchQuery">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </form>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
                     <li>
-                        <router-link :to="'/likedproducts'" class="nav-link"> 
-                        <i class="bi bi-heart h4"></i></router-link>
+                        <router-link :to="'/likedproducts'" class="nav-link">
+                            <i class="bi bi-heart h4"></i>
+                        </router-link>
                     </li>
                     <li>
-                        <router-link class="nav-link" :class="$route.name == 'Cart'? 'active':''" aria-current="page" :to="{ name: 'Cart' }">
+                        <router-link class="nav-link" :class="$route.name == 'Cart' ? 'active' : ''" aria-current="page" :to="{ name: 'Cart' }">
                             <i class="bi bi-cart3 h4"></i>
-                            <span v-if="$store.state.cart.length > 0" class="pill-rounded  justify-content-center align-items-center text-danger">
+                            <span v-if="$store.state.cart.length > 0" class="pill-rounded justify-content-center align-items-center text-danger">
                                 {{ $store.state.cart.length }}
                             </span>
                         </router-link>
@@ -46,7 +49,6 @@
         <div class="offcanvas-header">
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-
         <div class="offcanvas-body">
             <Login v-if="!loggedInUser && !showSignupForm" @show-signup="toggleForm"></Login>
             <SignUp v-if="!loggedInUser && showSignupForm" @show-login="toggleForm"></SignUp>
@@ -68,7 +70,8 @@
         data() {
             return {
                 loggedInUser: null, // Initially no user is logged in
-                showSignupForm: false // Control to show or hide the signup form
+                showSignupForm: false, // Control to show or hide the signup form
+                searchQuery: '' // Model for the search query
             };
         },
         methods: {
@@ -81,6 +84,12 @@
                 this.loggedInUser = null; // Reset loggedInUser
                 this.$router.push({ path: '/login' }); // Redirect to login page
                 this.toggleForm.hide();
+            },
+            searchProducts() {
+                // Handle the search functionality here
+                console.log('Search Query:', this.searchQuery);
+                // You can use this.$router.push to navigate to a search results page
+                this.$router.push({ path: '/search', query: { q: this.searchQuery } });
             }
         },
         created() {
@@ -97,9 +106,10 @@
         }
     }
 </script>
+
 <style scoped>
     .container-fluid {
-       color:white;
+        color: white;
         font-family: 'Times New Roman', Times, serif;
         font-size: 21px;
     }

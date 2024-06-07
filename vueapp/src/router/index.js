@@ -11,6 +11,7 @@ import AddProductsModal from '@/components/AddProductsModal.vue';
 import LikedProducts from '@/components/LikedProducts.vue';
 import Home from '/src/views/Home.vue'
 import DefaultLayout from '/src/Layout/DefaultLayout.vue'
+import CheckOut from '@/components/CheckOut.vue';
 const routes = [
     {
         path:'/',
@@ -67,6 +68,12 @@ const routes = [
                 name: 'AddProductsModal',
                 component: AddProductsModal,
                
+            },
+            {
+                path: '/CheckOut',
+                name: 'CheckOut',
+                component: CheckOut,
+
             },
         ]
     },
