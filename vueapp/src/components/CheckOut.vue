@@ -1,7 +1,7 @@
 ﻿<template>
-    <div>
-        <div class="bg-secondary border-top p-4 text-white mb-3">
-            <h1 class="display-6">Checkout</h1>
+    <div style="margin-top:160px">
+        <div class="border-toptext-black mb-2">
+            <h1 class="display-6" style="text-align:center">Checkout</h1><hr/>
         </div>
         <div class="container mb-3">
             <div class="row">

@@ -1,13 +1,13 @@
 <template>
-    <div class="container min-h-content py-5 text-center" style="display: flex; flex-direction: column;">
+    <div class="container min-h-content py-5 text-center" style="display: flex; margin-top: 130px; flex-direction: column;">
         <h5 class="mb-3">
-            <router-link :to="{name:'Home'}" class="text-body"><i class="bi bi-shop"></i> &nbsp; Continue shopping</router-link>
+            <router-link :to="{ name: 'Home' }" class="text-body"><i class="bi bi-shop"></i> &nbsp; Continue shopping</router-link>
         </h5>
         <hr>
         <div v-if="likedProducts.length" class="row py-lg-5">
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col" v-for="product in likedProducts" :key="product.id">
-                    <div class="card shadow-sm">
+                    <div class="card shadow-sm position-relative">
                         <!-- Like icon -->
                         <div class="like-icon">
                             <i class="bi bi-heart bi-heart-empty Likebtnicon"
@@ -21,12 +21,12 @@
                             </div>
                             <p>{{ product.floatingMessage }}</p>
                         </div>
-                        <img class="bd-placeholder-img card-img-top" width="100%" :src="product.imageURL" alt="">
+                        <img class="bd-placeholder-img card-img-top" width="100%" :src="product.image" alt="">
                         <div class="card-body">
                             <p class="card-text">{{ product.name }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <CartBTN :product="product" />
+                                    <cart-btn :product="product" />
                                 </div>
                                 <small class="text-muted"><i class="bi bi-currency-dollar"></i>{{ product.price }}</small>
                             </div>
@@ -45,7 +45,9 @@
     import CartBTN from './CartBTN.vue';
 
     export default {
-        components: { CartBTN },
+        components: {
+            CartBTN
+        },
         computed: {
             likedProducts() {
                 return this.$store.getters.likedProducts;

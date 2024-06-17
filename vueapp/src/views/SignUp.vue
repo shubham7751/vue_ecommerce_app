@@ -124,6 +124,10 @@
          background-color: white;
         margin-bottom: 20px;
     }
+    .form-group label {
+        margin-bottom: 8px; /* You can adjust the value as needed */
+        margin-top: 8px;
+    }
 
     .error {
         color: red;

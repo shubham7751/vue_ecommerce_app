@@ -4064,23 +4064,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\NTS-ShubhamJawale\\.nuget\\packages\\": {},
+    "C:\\Users\\NTS-Shilpa Kale\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\NTS-ShubhamJawale\\Desktop\\Vue\\VueECom Project\\webapi\\webapi.csproj",
+      "projectUniqueName": "C:\\Assignments\\Vue.Js\\E-com-PracticeVueApp\\webapi\\webapi.csproj",
       "projectName": "webapi",
-      "projectPath": "C:\\Users\\NTS-ShubhamJawale\\Desktop\\Vue\\VueECom Project\\webapi\\webapi.csproj",
-      "packagesPath": "C:\\Users\\NTS-ShubhamJawale\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\NTS-ShubhamJawale\\Desktop\\Vue\\VueECom Project\\webapi\\obj\\",
+      "projectPath": "C:\\Assignments\\Vue.Js\\E-com-PracticeVueApp\\webapi\\webapi.csproj",
+      "packagesPath": "C:\\Users\\NTS-Shilpa Kale\\.nuget\\packages\\",
+      "outputPath": "C:\\Assignments\\Vue.Js\\E-com-PracticeVueApp\\webapi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\NTS-ShubhamJawale\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\NTS-Shilpa Kale\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4089,7 +4089,7 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
+        "C:\\Program Files\\dotnet\\sdk\\7.0.304\\Sdks\\Microsoft.NET.Sdk.Web\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4176,7 +4176,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.410\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.304\\RuntimeIdentifierGraph.json"
       }
     }
   }

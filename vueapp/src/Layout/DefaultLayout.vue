@@ -7,9 +7,9 @@
     </div>
 </template>
 <script>
-import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
-import MenuBar from '@/components/MenuBar.vue';
+import Header from '@/views/Header.vue';
+import Footer from '@/views/Footer.vue';
+import MenuBar from '@/views/MenuBar.vue';
    
     export default {
         components: { Header, Footer, MenuBar }

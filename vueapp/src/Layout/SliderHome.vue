@@ -1,5 +1,5 @@
 <template>
-    <div class="carousel-container">
+    <div class="carousel-container" style="margin-top:160px">
         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="2500">
             <div class="carousel-inner">
                 <div class="carousel-item" :class="{ active: index === 0 }" v-for="(imagePair, index) in imagePairs" :key="index">
@@ -73,7 +73,7 @@
 
 <style scoped>
     .carousel-container {
-        margin-top: 10px; /* Adjust the margin-top to ensure it's below the header */
+        margin-top: 30px; /* Adjust the margin-top to ensure it's below the header */
     }
 
     .carousel-item img {

@@ -126,6 +126,10 @@
         color: white;
         border: none;
     }
+    .form-group label {
+        margin-bottom: 8px; /* You can adjust the value as needed */
+        margin-top: 8px;
+    }
 
         .btn-secondary:hover {
             background-color: #5a6268;

@@ -1,4 +1,4 @@
-
+﻿
 
 <template>
     <SliderHome/>
@@ -36,7 +36,7 @@
                                 <div class="btn-group">
                                     <CartBTN :product="product" />
                                 </div>
-                                <small class="text-muted"><i class="bi bi-currency-dollar"></i>{{ product.price }}</small>
+                                <small class="text-muted">₹{{ product.price }}</small>
                             </div>
                         </div>
                     </div>
